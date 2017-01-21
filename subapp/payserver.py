@@ -4,6 +4,7 @@ import os
 from flask import Flask, render_template, request
 import stripe
 
+print ("hello")
 
 #establish stripe plan names here
 plans = {
@@ -19,9 +20,9 @@ stripe_keys = {
 
 stripe.api_key = stripe_keys['secret_key']
 
-pserve = Flask(__name__)
+app = Flask(__name__)
 
-@pserve.route('/subscribe1', methods=['POST'])
+@app.route('/subscribe1', methods=['POST'])
 def charge():
 
 	customer = stripe.Customer.create(
@@ -37,5 +38,11 @@ def charge():
 
 	return
 
+
+@app.route('/test')
+def tester():
+	print ("hello")
+	return
+
 if __name__=='__main__':
-	pserve.run(debug=True)
+	app.run(debug=True)
