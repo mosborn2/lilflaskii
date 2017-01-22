@@ -4,7 +4,6 @@ import os
 from flask import Flask, render_template, request
 import stripe
 
-print ("hello")
 
 #establish stripe plan names here
 plans = {
@@ -41,8 +40,7 @@ def charge():
 
 @app.route('/test')
 def tester():
-	print ("hello")
-	return
+	return "Hello"
 
 if __name__=='__main__':
 	app.run(debug=True)
