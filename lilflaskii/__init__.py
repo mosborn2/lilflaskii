@@ -16,8 +16,8 @@ plans = {
 stripe_keys = {
 #	'secret_key': os.environ['STRIPE_PRIVATE'],
 #	'publishable_key' : os.environ['STRIPE_PUBLIC'],
-	'secret_key': "sk_test_vyZv0EhmEzbvZaL48yjuRUTr",
-	'publishable_key' : "pk_test_fOXxKCn5I2oLFyNPIo2r5rlZ",
+	'secret_key': "sk_test_qo2y4vv3Nkn2j6nDv9IX8Vlp",
+	'publishable_key' : "pk_test_Q6QANjAacACFzPKPRPg51Rq7",
 }
 
 stripe.api_key = stripe_keys['secret_key']
@@ -28,10 +28,15 @@ app = Flask(__name__)
 def charge():
 
 	customer = stripe.Customer.create(
-		email=request.form['email'],
+		email=request.form['stripeEmail'],
 		source=request.form['stripeToken'],
 	)
 
+
+	stripe.Subscription.create(
+		customer=customer.id,
+		plan="test1",
+	)
 
 	stripe.Charge.create(
 		customer=customer.id,
@@ -44,8 +49,14 @@ def charge():
 #		customer=customer.id,
 #		plan=plans['plan1'],
 #	)
+	cats = ""
+#	try:
+#		for x in request.form:
+#			cats += x
+#	except:
+#		pass
 
-	return "worked"
+	return cats
 
 
 @app.route('/test')
