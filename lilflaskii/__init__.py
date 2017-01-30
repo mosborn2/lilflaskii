@@ -4,23 +4,25 @@ import os
 from flask import Flask, render_template, request
 import stripe
 
-
+tbool=True
 
 #establish stripe plan names here
 plans = {
 	'plan1',
 	'plan2',
+	'plan80',
 }
 
 #grab api keys
 stripe_keys = {
-#	'secret_key': os.environ['STRIPE_PRIVATE'],
-#	'publishable_key' : os.environ['STRIPE_PUBLIC'],
-	'secret_key': "sk_test_qo2y4vv3Nkn2j6nDv9IX8Vlp",
-	'publishable_key' : "pk_test_Q6QANjAacACFzPKPRPg51Rq7",
+	'secret_key': os.environ['STRIPE_PRIVATE'],
+	'publishable_key' : os.environ['STRIPE_PUBLIC'],
 }
 
-stripe.api_key = stripe_keys['secret_key']
+if tbool is True:
+	stripe.api_key = stripe_keys['tsecret_key']
+else:
+	stripe.api_key = stripe_keys['secret_key']
 
 app = Flask(__name__)
 
@@ -33,30 +35,13 @@ def charge():
 	)
 
 
-	stripe.Subscription.create(
+	sub = stripe.Subscription.create(
 		customer=customer.id,
-		plan="test1",
+		plan='plan80',
 	)
 
-	stripe.Charge.create(
-		customer=customer.id,
-		amount=8000,
-		currency='usd',
-		description='test charge',
-	)
 
-#	stripe.Subscription.create(
-#		customer=customer.id,
-#		plan=plans['plan1'],
-#	)
-	cats = ""
-#	try:
-#		for x in request.form:
-#			cats += x
-#	except:
-#		pass
-
-	return cats
+	return True
 
 
 @app.route('/test')
